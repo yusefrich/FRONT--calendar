@@ -3,10 +3,12 @@
   --ct-primary: #4d68dd;
 
   --ct-white: #fafafa;
+  --ct-white-blur: #fafafa4b;
   --ct-white-soft: #f8f8f8;
   --ct-white-mute: #e0e0e0;
 
   --ct-black: #181818;
+  --ct-black-blur: #1818184b;
   --ct-black-soft: #222222;
   --ct-black-mute: #000000;
 
@@ -28,6 +30,7 @@
   --color-primary: var(--ct-primary);
 
   --color-background: var(--ct-white);
+  --color-background-blur: var(--ct-white-blur);
   --color-background-soft: var(--ct-white-soft);
   --color-background-mute: var(--ct-white-mute);
 
@@ -43,6 +46,7 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --color-background: var(--ct-black);
+    --color-background-blur: var(--ct-black-blur);
     --color-background-soft: var(--ct-black-soft);
     --color-background-mute: var(--ct-black-mute);
 

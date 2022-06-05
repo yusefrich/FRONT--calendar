@@ -1,27 +1,23 @@
 <script setup>
+import { computed } from "vue"
+import { useStore } from "vuex"
 import CReminder from "@/components/molecules/CReminder.vue";
 import CReminderActions from "@/components/molecules/CReminderActions.vue";
+
+const store = useStore();
+const reminders = computed(() => store.getters.reminders)
 </script>
 
 <template>
-    <div class="sidebar-container">
+    <div class="sidebar-container transition">
         <div class="reminders-heading">
             <span>Today Reminders</span>
         </div>
-        <c-reminder text="short text" />
-        <c-reminder text="mid text hds asuhks ss" />
-        <c-reminder text="max text hsuei hs uifvbtu u od" />
-        <c-reminder text="short text" />
-        <c-reminder text="mid text hds asuhks ss" />
-        <c-reminder text="max text hsuei hs uifvbtu u od" />
-        <c-reminder text="short text" />
-        <c-reminder text="mid text hds asuhks ss" />
-        <c-reminder text="max text hsuei hs uifvbtu u od" />
-        <c-reminder text="short text" />
-        <c-reminder text="mid text hds asuhks ss" />
-        <c-reminder text="max text hsuei hs uifvbtu u od" />
+        <div class="reminders-container">
+            <c-reminder v-for="(reminder, i) in reminders" :key="'reminder_current_day_' + i" :text="reminder.title" />
+        </div>
         <div class="actions">
-            <c-reminder-actions></c-reminder-actions>
+            <c-reminder-actions @add="$emit('addReminder')"></c-reminder-actions>
         </div>
     </div>
 </template>
@@ -37,6 +33,17 @@ import CReminderActions from "@/components/molecules/CReminderActions.vue";
         margin-top: 20px;
         width: 100%;
         bottom: 0;
+        background-image: linear-gradient(transparent, var(--color-background), var(--color-background), var(--color-background));
+    }
+    .reminders-container{
+        overflow: auto;
+        padding-bottom: 40px;
+        max-height: calc(100vh - 132px);
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        &::-webkit-scrollbar{
+            display: none;
+        }
     }
     &:hover{
         .actions{

@@ -12,7 +12,7 @@ defineProps({
         <c-button class="reminder-done mr-2">
             <small><ac-icon solid>check</ac-icon></small>
         </c-button>
-        <span class="reminder-text">{{text}}</span>
+        <c-button transparent class="reminder-text">{{text}}</c-button>
         <div class="reminder-actions">
             <c-button class="reminder-action mr-2">
                 <small><ac-icon solid>pen</ac-icon></small>
@@ -26,17 +26,20 @@ defineProps({
 
 <style lang="scss" scoped>
 .mr-2{
-    margin-right: 5px;
+    margin-right: 2px;
 }
 .reminder-container{
     display: block;
     background: var(--color-primary);
     border-radius: 5px;
     margin-bottom: 5px;
-    padding: 1px 10px;
+    padding: 0px 2px;
     display: flex;
     display: -webkit-flex;
     .reminder-text{
+        text-align: start;
+        padding: 0;
+        font-size: 12px;
         width: 100%;
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -47,11 +50,11 @@ defineProps({
         display: -webkit-flex;
     }
     .reminder-action{
-        padding: 5px;
+        padding: 4px;
         display: none;
     }
     .reminder-done{
-        padding: 5px;
+        padding: 4px;
     }
     &:hover{
         .reminder-action{

@@ -1,21 +1,21 @@
 <script setup>
 import { ref, onMounted } from 'vue'
+import { useStore } from 'vuex'
 import CNavbar from "@/components/organisms/CNavbar.vue";
 import CCalendar from "@/components/organisms/CCalendar.vue";
-import CSidebarContainer from "@/components/organisms/CSidebarContainer.vue";
+import CSidebar from "@/components/organisms/CSidebar.vue";
+import CModal from "@/components/molecules/CModal.vue";
+import CReminderForm from "@/components/molecules/CReminderForm.vue";
+import CMain from "@/components/layouts/CMain.vue";
 import dayjs from 'dayjs'
+
 const currentMonthName = ref('')
 const sidebarStatus = ref(true)
+const modalStatus = ref(false)
 const monthDays = ref([])
 
-/**
- * @name toggleSidebar
- * @description Togle the sidebar variable used in the CSidebarContainer component, if this variable is true, the page will show the sidebar.
- */
-function toggleSidebar() {
-    console.log('working???')
-    sidebarStatus.value = !sidebarStatus.value
-}
+const store = useStore();
+
 onMounted(() => {
     let currentMonth = dayjs().month() + 1
     let currentYear = dayjs().year()
@@ -48,10 +48,16 @@ onMounted(() => {
 </script>
 
 <template>
-    <header>
-        <c-navbar @toggle-theme="$emit('toggleTheme')" @toggle-sidebar="toggleSidebar" :currentMonth="currentMonthName" />
-    </header>
-    <c-sidebar-container :sidebar="sidebarStatus">
+    <c-main :sidebar="sidebarStatus">
+        <template v-slot:header>
+            <c-navbar @toggle-theme="$emit('toggleTheme')" @toggle-sidebar="sidebarStatus = !sidebarStatus" :currentMonth="currentMonthName" />
+        </template>
+        <template v-slot:sidebar>
+            <c-sidebar @add-reminder="modalStatus = true" />
+        </template>
         <c-calendar :month="monthDays" />
-    </c-sidebar-container>
+    </c-main>
+    <c-modal v-if="modalStatus" @close="modalStatus = false">
+        <c-reminder-form @submit-data="payload => store.dispatch('addReminder', payload)"></c-reminder-form><!-- store.dispatch('addReminder', payload) -->
+    </c-modal>
 </template>

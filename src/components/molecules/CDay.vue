@@ -16,28 +16,21 @@ defineProps({
 </script>
 <template>
     <div class="calendar-day-container transition" :class="{disabled: !date}">
-        <div class="calendar-day-block">
-            <span class="day-of-week">{{ week }}</span>
+        <div class="calendar-day-block" :class="{'smaller-reminders': week}">
+            <span v-if="week" class="day-of-week">{{ week }}</span>
             <span class="day-of-month">
                 <span :class="{'today-active': dayjs().format('DD/MM/YYYY') === dayjs(date).format('DD/MM/YYYY')}">
                     {{ day }}
                 </span>
             </span>
             <div class="reminders">
-                <!-- <c-reminder text="short text" />
-                <c-reminder text="mid text hds asuhks ss" />
-                <c-reminder text="mid text hds asuhks ss" />
-                <c-reminder text="mid text hds asuhks ss" /> -->
-                <!-- <c-reminder text="max text hsuei hs uifvbtu u od" />
-                <c-reminder text="short text" />
-                <c-reminder text="mid text hds asuhks ss" />
-                <c-reminder text="max text hsuei hs uifvbtu u od" />
-                <c-reminder text="short text" />
-                <c-reminder text="mid text hds asuhks ss" />
-                <c-reminder text="max text hsuei hs uifvbtu u od" />
-                <c-reminder text="short text" />
-                <c-reminder text="mid text hds asuhks ss" />
-                <c-reminder text="max text hsuei hs uifvbtu u od" /> -->
+                <!-- <c-reminder text="short text" /> -->
+                <!-- <c-reminder text="mid text hds asuhks ss" /> -->
+                <!-- <c-reminder text="mid text hds asuhks ss" /> -->
+                <!-- <c-reminder text="mid text hds asuhks ss" /> -->
+                <!-- <c-reminder text="mid text hds asuhks ss" /> -->
+                <!-- <c-reminder text="mid text hds asuhks ss" /> -->
+                <!-- <c-reminder text="mid text hds asuhks ss" /> -->
             </div>
             <div class="actions">
                 <c-reminder-actions></c-reminder-actions>
@@ -52,6 +45,7 @@ defineProps({
     flex: 0 0 auto;
     width: 14.28%;
     max-width: 100%;
+    // max-height: 100px;
     text-align: center;
 
     background: transparent;
@@ -75,6 +69,7 @@ defineProps({
             bottom: 9px;
             width: 100%;
             display: none;
+            background-image: linear-gradient(transparent, var(--color-background-soft), var(--color-background-soft), var(--color-background-soft));
         }
         .day-of-month{
             span{
@@ -90,21 +85,37 @@ defineProps({
             }
         }
         .reminders{
-            background: #fafafa2d;
-            height: calc(100% - 45px);
             margin-left: 10px;
             margin-right: 10px;
             margin-top: 5px;
+            padding-bottom: 40px;
             text-align: start;
-            // max-height: 10vh;
-            // overflow: auto;
+            overflow: auto;
+            display: none;
+            max-height: 10px;
+            max-height: calc(((100vh - 56px) / 5) - 70px);
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            &::-webkit-scrollbar{
+                display: none;
+            }
+        }
+        &:not(.smaller-reminders){
+            .reminders{
+                max-height: calc(((100vh - 56px) / 5) - 50px);
+            }
         }
     }
-    &:not(.disabled):hover{
-        background: var(--color-background-soft);
-        transform: scale(1.06);
-        z-index: 10;
-        .actions{
+    &:not(.disabled){
+        &:hover{
+            background: var(--color-background-soft);
+            transform: scale(1.06);
+            z-index: 10;
+            .actions{
+                display: block;
+            }
+        }
+        .reminders{
             display: block;
         }
     }

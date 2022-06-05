@@ -3,10 +3,12 @@ import App from "./App.vue";
 import router from "./router";
 import { Icon } from '@altipla/fa6-icon'
 import './icons'
+import store from "./store"
 
 const app = createApp(App);
 
 app.use(router);
+app.use(store);
 app.component(Icon.name, Icon)
 app.directive('click-outside', {
     bind(el, binding, vnode) {

@@ -9,9 +9,12 @@ defineProps({
 </script>
 
 <template>
+    <header>
+        <slot name="header" />
+    </header>
     <div class="split-container" :class="{active: sidebar}">
         <div class="sidebar transition">
-            <c-sidebar />
+            <slot name="sidebar" />
         </div>
         <div class="content transition">
             <slot />

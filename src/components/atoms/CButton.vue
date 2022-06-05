@@ -1,5 +1,9 @@
 <script setup>
 defineProps({
+    type: {
+        type: String,
+        default: 'button',
+    },
     darker: {
         type: Boolean,
         default: false,
@@ -8,11 +12,19 @@ defineProps({
         type: Boolean,
         default: false,
     },
+    size: {
+        type: String,
+        default: 'md',
+    },
+    transparent: {
+        type: Boolean,
+        default: false,
+    },
 });
 </script>
 
 <template>
-    <button class="btn transition" :class="{'btn-darker': darker, 'btn-rounded': rounded}">
+    <button :type="type" class="btn transition" :class="[{'btn-darker': darker, 'btn-rounded': rounded, 'btn-transparent': transparent}, `btn-${size}`]">
         <slot />
     </button>
 </template>
@@ -35,5 +47,12 @@ defineProps({
 }
 .btn-rounded{
     border-radius: 50%;
+}
+.btn-transparent:hover{
+    background: transparent;
+    transform: scale(1);
+}
+.btn-lg{
+    font-size: 17px;
 }
 </style>

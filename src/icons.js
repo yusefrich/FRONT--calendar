@@ -5,6 +5,7 @@ import {
     faPlus as faPlus,
     faTrash as faTrash,
     faPen as faPen,
+    faTimes as faTimes,
     faCheck as faCheck,
 } from '@fortawesome/free-solid-svg-icons'
 
@@ -14,5 +15,6 @@ library.add(
     faPlus,
     faTrash,
     faPen,
+    faTimes,
     faCheck,
 )
