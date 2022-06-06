@@ -32,7 +32,7 @@ const reminders = computed(() => store.getters.remindersByDate);
             <div v-if="day" class="reminders">
                 <c-reminder v-for="(reminder, i) in reminders(dayjs(date))" :key="'reminder_' + day + '_day_' + i" :options="reminder" />
             </div>
-            <div class="actions">
+            <div v-if="day" class="actions">
                 <c-reminder-actions @add="$emit('addReminder', { dateTime: dayjs(date) })" @clear="$emit('clearDayReminders', { dateTime: dayjs(date) })"></c-reminder-actions>
             </div>
         </div>
@@ -57,18 +57,20 @@ const reminders = computed(() => store.getters.remindersByDate);
     color: var(--color-text);
     .calendar-day-block{
         height: 100%;
+        padding-top: 5px;
         span{
             display: block;
         }
         .day-of-week{
-            margin-top: 10px;
+            // margin-top: 10px;
             margin-bottom: 10px;
         }
         .actions{
             position: absolute;
-            bottom: 9px;
+            bottom:0;
             width: 100%;
-            display: none;
+            // display: none;
+            opacity: .3;
             background-image: linear-gradient(transparent, var(--color-background-soft), var(--color-background-soft), var(--color-background-soft));
         }
         .day-of-month{
@@ -113,6 +115,7 @@ const reminders = computed(() => store.getters.remindersByDate);
             z-index: 10;
             .actions{
                 display: block;
+                opacity: 1;
             }
         }
         .reminders{

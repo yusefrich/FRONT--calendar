@@ -4,8 +4,8 @@ const store = createStore({
     state: {
         reminders: [
             { id: 'test', title: 'vuex working', dateTime: '2022-06-05T22:30', city: 'Joao pessoa', lat: -19.809444, lon: -43.173334, color: '#4d68dd', done: true },
-            { id: 'test', title: 'vuex working', dateTime: '2022-06-08T22:30', city: 'Joao pessoa', lat: -19.809444, lon: -43.173334, color: '#fafafa', done: true },
-            { id: 'test', title: 'vuex working', dateTime: '2022-06-10T22:30', city: 'Joao pessoa', lat: -19.809444, lon: -43.173334, color: '#333333', done: true }
+            { id: 'test1', title: 'vuex working', dateTime: '2022-06-08T22:30', city: 'Joao pessoa', lat: -19.809444, lon: -43.173334, color: '#fafafa', done: true },
+            { id: 'test2', title: 'vuex working', dateTime: '2022-06-10T22:30', city: 'Joao pessoa', lat: -19.809444, lon: -43.173334, color: '#333333', done: true }
         ]
     },
     getters: {

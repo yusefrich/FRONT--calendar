@@ -2,6 +2,7 @@
 :root {
   --ct-primary: #4d68dd;
   --ct-secondary: #c04ddd;
+  --ct-tertiary: #adb5bd;
 
   --ct-white: #fafafa;
   --ct-white-blur: #fafafa4b;
@@ -30,6 +31,7 @@
 :root {
   --color-primary: var(--ct-primary);
   --color-secondary: var(--ct-secondary);
+  --color-tertiary: var(--ct-tertiary);
 
   --color-background: var(--ct-white);
   --color-background-blur: var(--ct-white-blur);
@@ -41,6 +43,7 @@
 
   --color-heading: var(--ct-text-light-1);
   --color-text: var(--ct-text-light-1);
+  --color-text-indigo: var(--ct-indigo);
 
   --section-gap: 160px;
 }

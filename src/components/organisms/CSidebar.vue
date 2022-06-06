@@ -30,7 +30,7 @@ const reminders = computed(() => store.getters.remindersByDate);
     position: relative;
     .actions{
         position: absolute;
-        display: none;
+        opacity: .3;
         margin-top: 20px;
         width: 100%;
         bottom: 0;
@@ -49,6 +49,7 @@ const reminders = computed(() => store.getters.remindersByDate);
     &:hover{
         .actions{
             display: block;
+            opacity: 1;
         }
     }
 }
