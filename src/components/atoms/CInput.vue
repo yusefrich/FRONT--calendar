@@ -4,6 +4,9 @@ defineProps({
         type: String,
         default: 'text',
     },
+    required: {
+        type: Boolean,
+    },
     placeholder: {
         type: String,
         default: '',
@@ -21,7 +24,7 @@ const updateValue = (event) => {
 </script>
 
 <template>
-    <input class="transition" :type="type" :placeholder="placeholder" :value="modelValue"  @input="updateValue">
+    <input class="transition" :type="type" :required="required" :placeholder="placeholder" :value="modelValue"  @input="updateValue">
 </template>
 
 <style lang="scss" scoped>

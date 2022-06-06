@@ -7,6 +7,7 @@ import {
     faPen as faPen,
     faTimes as faTimes,
     faCheck as faCheck,
+    faClock as faClock,
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
@@ -17,4 +18,5 @@ library.add(
     faPen,
     faTimes,
     faCheck,
+    faClock,
 )

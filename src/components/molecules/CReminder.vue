@@ -1,23 +1,40 @@
 <script setup>
+import { inject } from 'vue'
 import CButton from "@/components/atoms/CButton.vue";
-defineProps({
-    text: {
-        type: String,
+
+const props = defineProps({
+    options: {
+        type: Object,
     },
 });
+
+const emitter = inject('emitter');
+
+function openReminder(payload) {
+    emitter.emit("open-reminder", payload);
+}
+function editReminder(payload) {
+    emitter.emit("edit-reminder", payload);
+}
+function clearReminder(payload) {
+    emitter.emit("clear-reminder", payload);
+}
+function toggleDoneReminder(payload) {
+    emitter.emit("toggle-done-reminder", payload);
+}
 </script>
 
 <template>
     <div class="reminder-container">
-        <c-button class="reminder-done mr-2">
+        <c-button @click="toggleDoneReminder(options)" class="reminder-done mr-2">
             <small><ac-icon solid>check</ac-icon></small>
         </c-button>
-        <c-button transparent class="reminder-text">{{text}}</c-button>
+        <c-button @click="openReminder(options)" transparent class="reminder-text" :class="{done: options.done}">{{options.title}}</c-button>
         <div class="reminder-actions">
-            <c-button class="reminder-action mr-2">
+            <c-button @click="editReminder(options)" class="reminder-action mr-2">
                 <small><ac-icon solid>pen</ac-icon></small>
             </c-button>
-            <c-button class="reminder-action">
+            <c-button @click="clearReminder(options)" class="reminder-action">
                 <small><ac-icon solid>trash</ac-icon></small>
             </c-button>
         </div>
@@ -44,6 +61,9 @@ defineProps({
         text-overflow: ellipsis;
         white-space: nowrap;
         overflow: hidden;
+        &.done{
+            text-decoration: line-through;
+        }
     }
     .reminder-actions{
         display: flex;

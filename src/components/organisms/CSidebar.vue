@@ -1,11 +1,12 @@
 <script setup>
+import dayjs from 'dayjs'
 import { computed } from "vue"
 import { useStore } from "vuex"
 import CReminder from "@/components/molecules/CReminder.vue";
 import CReminderActions from "@/components/molecules/CReminderActions.vue";
 
 const store = useStore();
-const reminders = computed(() => store.getters.reminders)
+const reminders = computed(() => store.getters.remindersByDate);
 </script>
 
 <template>
@@ -14,10 +15,10 @@ const reminders = computed(() => store.getters.reminders)
             <span>Today Reminders</span>
         </div>
         <div class="reminders-container">
-            <c-reminder v-for="(reminder, i) in reminders" :key="'reminder_current_day_' + i" :text="reminder.title" />
+            <c-reminder v-for="(reminder, i) in reminders(dayjs())" :key="'reminder_current_day_' + i" :options="reminder" />
         </div>
         <div class="actions">
-            <c-reminder-actions @add="$emit('addReminder')"></c-reminder-actions>
+            <c-reminder-actions @add="$emit('addReminder', { dateTime: dayjs() })" @clear="$emit('clearDayReminders', { dateTime: dayjs() })"></c-reminder-actions>
         </div>
     </div>
 </template>

@@ -12,7 +12,15 @@ defineProps({
     <div class="calendar-container">
         <div class="week-heading"></div>
         <div class="days-container">
-            <c-day v-for="(day, i) in month" :key="'day_key_'+i" :day="day.day" :week="i <= 6 ? day.week : null" :date="day.date" />
+            <c-day
+                @clear-day-reminders="payload => $emit('clearDayReminders', payload)"
+                @add-reminder="payload => $emit('addReminder', payload)"
+                v-for="(day, i) in month"
+                :key="'day_key_'+i"
+                :day="day.day"
+                :week="i <= 6 ? day.week : null"
+                :date="day.date"
+            />
         </div>
     </div>
 </template>

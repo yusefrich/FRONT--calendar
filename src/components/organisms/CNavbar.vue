@@ -14,7 +14,7 @@ defineProps({
                 <ac-icon solid>bars</ac-icon>
             </c-button>
             <h4 class="current-month">{{ currentMonth }}</h4>
-            <c-button>
+            <c-button @click="$emit('clearAllReminders')">
                 Clear all
             </c-button>
         </div>

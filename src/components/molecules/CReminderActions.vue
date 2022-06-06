@@ -4,10 +4,10 @@ import CButton from "@/components/atoms/CButton.vue";
 
 <template>
     <div class="action-container transition">
-        <c-button @click="$emit('add')" darker rounded>
+        <c-button @mouseup="$emit('add')" darker rounded>
             <ac-icon solid>plus</ac-icon>
         </c-button>
-        <c-button darker>
+        <c-button @mouseup="$emit('clear')" darker>
             <small><ac-icon solid>trash</ac-icon> Clear All</small>
         </c-button>
     </div>

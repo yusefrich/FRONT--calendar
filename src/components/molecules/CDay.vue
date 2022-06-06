@@ -1,7 +1,10 @@
 <script setup>
+import { computed } from "vue"
+import { useStore } from "vuex"
 import CReminderActions from "@/components/molecules/CReminderActions.vue";
 import CReminder from "@/components/molecules/CReminder.vue";
 import dayjs from 'dayjs'
+
 defineProps({
     date: {
         type: Object,
@@ -13,6 +16,9 @@ defineProps({
         type: String,
     },
 });
+
+const store = useStore();
+const reminders = computed(() => store.getters.remindersByDate);
 </script>
 <template>
     <div class="calendar-day-container transition" :class="{disabled: !date}">
@@ -23,17 +29,11 @@ defineProps({
                     {{ day }}
                 </span>
             </span>
-            <div class="reminders">
-                <!-- <c-reminder text="short text" /> -->
-                <!-- <c-reminder text="mid text hds asuhks ss" /> -->
-                <!-- <c-reminder text="mid text hds asuhks ss" /> -->
-                <!-- <c-reminder text="mid text hds asuhks ss" /> -->
-                <!-- <c-reminder text="mid text hds asuhks ss" /> -->
-                <!-- <c-reminder text="mid text hds asuhks ss" /> -->
-                <!-- <c-reminder text="mid text hds asuhks ss" /> -->
+            <div v-if="day" class="reminders">
+                <c-reminder v-for="(reminder, i) in reminders(dayjs(date))" :key="'reminder_' + day + '_day_' + i" :options="reminder" />
             </div>
             <div class="actions">
-                <c-reminder-actions></c-reminder-actions>
+                <c-reminder-actions @add="$emit('addReminder', { dateTime: dayjs(date) })" @clear="$emit('clearDayReminders', { dateTime: dayjs(date) })"></c-reminder-actions>
             </div>
         </div>
     </div>
