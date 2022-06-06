@@ -25,7 +25,7 @@ function toggleDoneReminder(payload) {
 </script>
 
 <template>
-    <div class="reminder-container">
+    <div :style="`background: ${options.color}`" class="reminder-container">
         <c-button @click="toggleDoneReminder(options)" class="reminder-done mr-2">
             <small><ac-icon solid>check</ac-icon></small>
         </c-button>

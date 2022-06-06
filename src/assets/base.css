@@ -1,10 +1,11 @@
 /* color palette from <https://github.com/vuejs/theme> */
 :root {
   --ct-primary: #4d68dd;
+  --ct-secondary: #c04ddd;
 
   --ct-white: #fafafa;
   --ct-white-blur: #fafafa4b;
-  --ct-white-soft: #f8f8f8;
+  --ct-white-soft: #ebebeb;
   --ct-white-mute: #e0e0e0;
 
   --ct-black: #181818;
@@ -28,6 +29,7 @@
 /* semantic color variables for this project */
 :root {
   --color-primary: var(--ct-primary);
+  --color-secondary: var(--ct-secondary);
 
   --color-background: var(--ct-white);
   --color-background-blur: var(--ct-white-blur);

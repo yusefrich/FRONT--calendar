@@ -26,9 +26,12 @@ const time = ref('')
 const city = ref('')
 const timeout = ref(null)
 const loading = ref(false)
-const cityOptions = ref([])
+const cityOptions = ref(null)
 
 watch(city, (value) => {
+    if (value === '') {
+        cityOptions.value = null;
+    }
     if (value !== payload.value.city) {
         if (timeout.value) {
             clearTimeout(timeout.value)
@@ -79,7 +82,7 @@ function selectCity(option) {
     payload.value.lat = option.lat;
     payload.value.lon = option.lon;
     city.value = option.name;
-    cityOptions.value = [];
+    cityOptions.value = null;
     if (timeout.value) {
         clearTimeout(timeout.value)
     }
@@ -90,12 +93,17 @@ function selectCity(option) {
     <form @submit.prevent="$emit('submitData', formatPayload(payload, date, time))">
         <!-- <code>{{cityOptions}}</code> -->
         <div class="form-group">
-            <c-input required class="form-item" type="text" placeholder="Reminder Title" v-model="payload.title"/>
+            <div class="form-item">
+                <c-input required class="w-100" type="text" placeholder="Reminder Title" maxlength="30" v-model="payload.title"/>
+                <span class="form-item-info"><small>Max of 30 chars</small></span>
+            </div>
             <c-input required class="form-item" type="date" placeholder="Reminder Date" v-model="date"/>
             <c-input required class="form-item" type="time" placeholder="Reminder Time" v-model="time"/>
             <div class="form-item">
-                <c-input class="w-100" required type="text" placeholder="City of this reminder" v-model="city"/>
-                <div  v-if="cityOptions.length > 0 || loading" class="city-suggestions">
+                <c-input hidden class="w-100" required type="text" placeholder="City of this reminder" v-model="payload.city"/>
+                <c-input class="w-100" required type="text" placeholder="City of this reminder" maxlength="20" v-model="city"/>
+                <span class="form-item-info"><small>Use the field to search for a city and select the correct one</small></span>
+                <div  v-if="cityOptions" class="city-suggestions">
                     <c-button @click="selectCity(option)" v-for="(option, index) in cityOptions" :key="'list_of_autocompleate_' + index" class="city-sug" darker>{{ option.name }}</c-button>
                     <span v-if="loading" class="loading">
                         <ac-icon class="spin" solid>spinner</ac-icon>
@@ -123,6 +131,10 @@ function selectCity(option) {
         width: calc(50% - 20px);
         flex: 0 0 auto;
         margin-bottom: 30px;
+        text-align: start;
+        .form-item-info{
+            font-size: 12px;
+        }
         &:nth-child(odd){
             margin-right: 20px;
         }

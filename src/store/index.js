@@ -3,7 +3,9 @@ import { createStore } from "vuex";
 const store = createStore({
     state: {
         reminders: [
-            { id: 'test', title: 'vuex working', dateTime: '2022-06-05T22:30', city: 'Joao pessoa', lat: '', lon: '', color: '#4d68dd', done: true }
+            { id: 'test', title: 'vuex working', dateTime: '2022-06-05T22:30', city: 'Joao pessoa', lat: -19.809444, lon: -43.173334, color: '#4d68dd', done: true },
+            { id: 'test', title: 'vuex working', dateTime: '2022-06-08T22:30', city: 'Joao pessoa', lat: -19.809444, lon: -43.173334, color: '#fafafa', done: true },
+            { id: 'test', title: 'vuex working', dateTime: '2022-06-10T22:30', city: 'Joao pessoa', lat: -19.809444, lon: -43.173334, color: '#333333', done: true }
         ]
     },
     getters: {
@@ -27,6 +29,7 @@ const store = createStore({
          * @param {Array} reminder object containing the reminder new reminder data e.g. { title: String, ... } 
          */
         ADD_REMINDER(state, reminder) {
+            reminder.title = reminder.title.substring(0, 30);
             let guid = () => {
                 let s4 = () => {
                     return Math.floor((1 + Math.random()) * 0x10000)
@@ -44,6 +47,7 @@ const store = createStore({
          * @param {Array} reminder object containing the reminder new reminder data e.g. { title: String, ... } 
          */
         EDIT_REMINDER(state, reminder) {
+            reminder.title = reminder.title.substring(0, 30);
             const reminderIndex = state.reminders.findIndex((obj => obj.id === reminder.id));
             state.reminders[reminderIndex] = reminder
         },
