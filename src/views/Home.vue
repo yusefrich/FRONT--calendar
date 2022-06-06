@@ -58,7 +58,7 @@ onMounted(() => {
     const monthIndex = dayjs().month() + 1;
 
     monthName.value = monthsList.value[monthIndex];
-    calendar.value = populateCalendar(monthIndex)
+    calendar.value = populateCalendar(monthIndex);
 })
 
 </script>

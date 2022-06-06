@@ -3,7 +3,7 @@ import { createStore } from "vuex";
 const store = createStore({
     state: {
         reminders: [
-            { id: 'test', title: 'vuex working', dateTime: '2022-06-05T22:30', city: 'Joao pessoa', color: '#4d68dd', done: true }
+            { id: 'test', title: 'vuex working', dateTime: '2022-06-05T22:30', city: 'Joao pessoa', lat: '', lon: '', color: '#4d68dd', done: true }
         ]
     },
     getters: {

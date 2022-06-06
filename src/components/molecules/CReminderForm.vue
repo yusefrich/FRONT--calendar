@@ -1,8 +1,9 @@
 <script setup>
-import { ref, onMounted } from "vue"
+import { ref, onMounted, onBeforeMount, watch } from "vue"
 import dayjs from 'dayjs'
 import CButton from "@/components/atoms/CButton.vue";
 import CInput from "@/components/atoms/CInput.vue";
+import openWeatherService from '@/services/openWeatherService'
 
 const props = defineProps({
     reminder: {
@@ -15,22 +16,53 @@ const payload = ref({
     title: null,
     dateTime: null,
     city: null,
+    lat: null,
+    lon: null,
     color: '#4d68dd',
     done: false,
 })
 const date = ref('')
 const time = ref('')
+const city = ref('')
+const timeout = ref(null)
+const loading = ref(false)
+const cityOptions = ref([])
+
+watch(city, (value) => {
+    if (value !== payload.value.city) {
+        if (timeout.value) {
+            clearTimeout(timeout.value)
+        }
+        timeout.value = setTimeout(async () => {
+            loading.value = true
+            const [data, err] = await openWeatherService.getCoordinates(value)
+            loading.value = false
+            if (!err) {
+                cityOptions.value = data
+            }
+        }, 1000)
+    }
+})
+
+onBeforeMount(() => {
+    if (!props.reminder) {
+        return
+    }
+    city.value = props.reminder.hasOwnProperty('city') ? props.reminder.city : null
+})
 
 onMounted(() => {
     if (!props.reminder) {
         return
     }
-    payload.value.id = props.reminder.hasOwnProperty('id') ? props.reminder.id : null
-    payload.value.title = props.reminder.hasOwnProperty('title') ? props.reminder.title : null
-    payload.value.dateTime = props.reminder.hasOwnProperty('dateTime') ? props.reminder.dateTime : null
-    payload.value.city = props.reminder.hasOwnProperty('city') ? props.reminder.city : null
-    payload.value.color = props.reminder.hasOwnProperty('color') ? props.reminder.color : '#4d68dd'
-    payload.value.done = props.reminder.hasOwnProperty('done') ? props.reminder.done : false
+    payload.value.id = props.reminder.hasOwnProperty('id') ? props.reminder.id : null;
+    payload.value.title = props.reminder.hasOwnProperty('title') ? props.reminder.title : null;
+    payload.value.dateTime = props.reminder.hasOwnProperty('dateTime') ? props.reminder.dateTime : null;
+    payload.value.city = props.reminder.hasOwnProperty('city') ? props.reminder.city : null;
+    payload.value.color = props.reminder.hasOwnProperty('color') ? props.reminder.color : '#4d68dd';
+    payload.value.done = props.reminder.hasOwnProperty('done') ? props.reminder.done : false;
+    payload.value.lat = props.reminder.hasOwnProperty('lat') ? props.reminder.lat : false;
+    payload.value.lon = props.reminder.hasOwnProperty('lon') ? props.reminder.lon : false;
 
     if (payload.value.dateTime) {
         date.value = dayjs(payload.value.dateTime).format('YYYY-MM-DD')
@@ -42,15 +74,34 @@ function formatPayload(submitPayload, submitDate, submitTime) {
     submitPayload.dateTime = dayjs(submitDate + 'T' + submitTime)
     return submitPayload
 }
+function selectCity(option) {
+    payload.value.city = option.name;
+    payload.value.lat = option.lat;
+    payload.value.lon = option.lon;
+    city.value = option.name;
+    cityOptions.value = [];
+    if (timeout.value) {
+        clearTimeout(timeout.value)
+    }
+}
 </script>
 
 <template>
     <form @submit.prevent="$emit('submitData', formatPayload(payload, date, time))">
+        <!-- <code>{{cityOptions}}</code> -->
         <div class="form-group">
             <c-input required class="form-item" type="text" placeholder="Reminder Title" v-model="payload.title"/>
             <c-input required class="form-item" type="date" placeholder="Reminder Date" v-model="date"/>
             <c-input required class="form-item" type="time" placeholder="Reminder Time" v-model="time"/>
-            <c-input required class="form-item" type="text" placeholder="City of this reminder" v-model="payload.city"/>
+            <div class="form-item">
+                <c-input class="w-100" required type="text" placeholder="City of this reminder" v-model="city"/>
+                <div  v-if="cityOptions.length > 0 || loading" class="city-suggestions">
+                    <c-button @click="selectCity(option)" v-for="(option, index) in cityOptions" :key="'list_of_autocompleate_' + index" class="city-sug" darker>{{ option.name }}</c-button>
+                    <span v-if="loading" class="loading">
+                        <ac-icon class="spin" solid>spinner</ac-icon>
+                    </span>
+                </div>
+            </div>
             <c-input required class="form-item" type="color" placeholder="color" v-model="payload.color"/>
             <c-button type="submit" class="form-item" darker size="lg">Submit</c-button>
         </div>
@@ -68,6 +119,7 @@ function formatPayload(submitPayload, submitDate, submitTime) {
     flex-wrap: wrap;
     flex-direction: row;
     .form-item{
+        position: relative;
         width: calc(50% - 20px);
         flex: 0 0 auto;
         margin-bottom: 30px;
@@ -77,6 +129,41 @@ function formatPayload(submitPayload, submitDate, submitTime) {
         &:nth-child(even){
             margin-left: 20px;
         }
+        .city-suggestions{
+            width: 100%;
+            position: absolute;
+            // transform: translateY(0%);
+            background: var(--color-background);
+            border-radius: 10px;
+            padding: 15px;
+            z-index: 30;
+            max-height: 300px;
+            overflow: auto;
+            .city-sug{
+                display: block;
+                width: 100%;
+                text-align: start;
+                margin-bottom: 10px;
+                background: var(--color-background-soft);
+            }
+        }
+    }
+}
+.w-100{
+    width: 100%;
+}
+.spin{
+    animation-name: spin;
+    animation-duration: 2000ms;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+}
+@keyframes spin {
+    from {
+        transform:rotate(0deg);
+    }
+    to {
+        transform:rotate(360deg);
     }
 }
 </style>
