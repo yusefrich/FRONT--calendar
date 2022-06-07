@@ -9,16 +9,35 @@ const props = defineProps({
 });
 
 const emitter = inject('emitter');
-
+/**
+ * @name openReminder
+ * @description Emit a global event to be listened by the Home template.
+ * @param {Object} payload payload container the reminder
+ */
 function openReminder(payload) {
     emitter.emit("open-reminder", payload);
 }
+/**
+ * @name deleteDayReminders
+ * @description Emit a global event to be listened by the Home template.
+ * @param {Object} payload payload container the reminder
+ */
 function editReminder(payload) {
     emitter.emit("edit-reminder", payload);
 }
+/**
+ * @name deleteDayReminders
+ * @description Emit a global event to be listened by the Home template.
+ * @param {Object} payload payload container the reminder
+ */
 function clearReminder(payload) {
     emitter.emit("clear-reminder", payload);
 }
+/**
+ * @name deleteDayReminders
+ * @description Emit a global event to be listened by the Home template.
+ * @param {Object} payload payload container the reminder
+ */
 function toggleDoneReminder(payload) {
     emitter.emit("toggle-done-reminder", payload);
 }

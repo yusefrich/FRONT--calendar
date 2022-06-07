@@ -12,12 +12,15 @@ const submiting = ref(true)
 const sidebarStatus = ref(true)
 const modalStatus = ref(false)
 const reminder = ref({})
-const emit = defineEmits(['addReminder', 'editReminder', 'clearReminder', 'clearDayReminders', 'clearAllReminders', 'toggleDoneReminder'])
+const emit = defineEmits(['addReminder', 'editReminder', 'clearReminder', 'clearDayReminders', 'clearAllReminders', 'nextMonth', 'prevMonth', 'toggleDoneReminder'])
 const emitter = inject('emitter');   // Inject `emitter`
 
 defineProps({
     monthName: {
         type: String,
+    },
+    year: {
+        type: Number,
     },
     calendar: {
         type: Array,
@@ -47,7 +50,14 @@ onMounted(() => {
 <template>
     <c-main :sidebar="sidebarStatus">
         <template v-slot:header>
-            <c-navbar @toggle-sidebar="sidebarStatus = !sidebarStatus" @clear-all-reminders="$emit('clearAllReminders')" :currentMonth="monthName" />
+            <c-navbar
+                @toggle-sidebar="sidebarStatus = !sidebarStatus"
+                @clear-all-reminders="$emit('clearAllReminders')"
+                @next-month="$emit('nextMonth')"
+                @prev-month="$emit('prevMonth')"
+                :currentMonth="monthName"
+                :currentYear="year"
+            />
         </template>
         <template v-slot:sidebar>
             <c-sidebar @add-reminder="payload => {modalStatus = true; reminder = payload; submiting = true}" @clear-day-reminders="payload => $emit('clearDayReminders', payload)" />

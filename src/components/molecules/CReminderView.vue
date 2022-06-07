@@ -14,12 +14,31 @@ const props = defineProps({
 const emitter = inject('emitter');
 const weatherList = ref([])
 
+/**
+ * @name toggleDoneReminder
+ * @description Emit a global event to be listened by the Home template.
+ * @param {Object} payload payload containing the reminder
+ */
 function toggleDoneReminder(payload) {
     emitter.emit("toggle-done-reminder", payload);
 }
+
+/**
+ * @name clearReminder
+ * @description Emit a global event to be listened by the Home template.
+ * @param {Object} payload payload containing the reminder
+ */
 function clearReminder(payload) {
     emitter.emit("clear-reminder", payload);
 }
+
+/**
+ * @name checkValidDay
+ * @description returns the weather forecast for the current day of that reminder and for the following days.
+ * @param {Object} reminderDate date set in the reminder
+ * @param {Object} weatherDate current weather day
+ * @return {Array} return the weather forecast for the next 5 days
+ */
 function checkValidDay(reminderDate, weatherDate) {
     return new Date(weatherDate).getDate() >= new Date(reminderDate).getDate()
 }

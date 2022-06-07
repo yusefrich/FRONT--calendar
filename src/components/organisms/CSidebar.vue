@@ -12,7 +12,13 @@ const reminders = computed(() => store.getters.remindersByDate);
 <template>
     <div class="sidebar-container transition">
         <div class="reminders-heading">
-            <span>Today Reminders</span>
+            <span>
+                <small class="mr-2">{{reminders(dayjs()).length}}</small>
+                <small>Today Reminders</small>
+            </span>
+            <span>
+                <small>{{dayjs().format('ddd, DD MMM')}}</small>
+            </span>
         </div>
         <div class="reminders-container">
             <c-reminder v-for="(reminder, i) in reminders(dayjs())" :key="'reminder_current_day_' + i" :options="reminder" />
@@ -57,5 +63,11 @@ const reminders = computed(() => store.getters.remindersByDate);
     margin-bottom: 20px;
     padding-bottom: 10px;
     border-bottom: 2px solid var(--color-background-soft);
+    display: flex;
+    display: -webkit-flex;
+    justify-content: space-between;
+    .mr-2{
+        margin-right: 5px;
+    }
 }
 </style>

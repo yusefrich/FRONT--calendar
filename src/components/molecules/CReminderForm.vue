@@ -73,10 +73,23 @@ onMounted(() => {
     }
 })
 
+/**
+ * @name formatPayload
+ * @description Format the payload with the corrent date time.
+ * @param {Object} submitPayload payload containing the reminder
+ * @param {String} submitDate date selected by the user to save a reminder
+ * @param {String} submitTime time selected by the user to save a reminder
+ * @return {Object} payload container the reminder with a valid dateTime
+ */
 function formatPayload(submitPayload, submitDate, submitTime) {
     submitPayload.dateTime = dayjs(submitDate + 'T' + submitTime)
     return submitPayload
 }
+/**
+ * @name selectCity
+ * @description called after the user select a city for the autocompleate options to save the selected city in the payload that will be send to the state.
+ * @param {Object} option payload containing the reminder
+ */
 function selectCity(option) {
     payload.value.city = option.name;
     payload.value.lat = option.lat;

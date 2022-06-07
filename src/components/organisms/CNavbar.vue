@@ -4,16 +4,27 @@ defineProps({
     currentMonth: {
         type: String,
     },
+    currentYear: {
+        type: Number,
+    },
 });
 </script>
 
 <template>
     <nav class="navbar">
         <div class="container-fluid d-flex">
-            <c-button @click="$emit('toggleSidebar')">
-                <ac-icon solid>bars</ac-icon>
-            </c-button>
-            <h4 class="current-month">{{ currentMonth }}</h4>
+            <div>
+                <c-button @click="$emit('toggleSidebar')">
+                    <ac-icon solid>bars</ac-icon>
+                </c-button>
+                <c-button @click="$emit('prevMonth')">
+                    <ac-icon solid>chevron-left</ac-icon>
+                </c-button>
+                <c-button @click="$emit('nextMonth')">
+                    <ac-icon solid>chevron-right</ac-icon>
+                </c-button>
+            </div>
+            <h4 class="current-month">{{ currentMonth }} - {{ currentYear }}</h4>
             <c-button @click="$emit('clearAllReminders')">
                 Clear all
             </c-button>

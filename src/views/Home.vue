@@ -6,7 +6,9 @@ import Home from "@/components/templates/Home.vue";
 
 const store = useStore();
 
+const monthCounter = ref(0)
 const monthName = ref('')
+const year = ref(2022)
 const calendar = ref([])
 const weekList = ref(['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'])
 const monthsList = ref([ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ])
@@ -42,25 +44,28 @@ function populateCalendar(monthIndex) {
  * @return {Array} Return days of a given month index as a array of objects.
  */
 function daysInMonthList(monthIndex) {
-  const currentYear = dayjs().year();
   let localCalendar = []
   for (let i = 1; i <= dayjs().daysInMonth(); i++) {
     localCalendar.push({
-        date: dayjs(`${currentYear}-${monthIndex}-${i}`),
-        day: dayjs(`${currentYear}-${monthIndex}-${i}`).date(),
-        week: weekList.value[dayjs(`${currentYear}-${monthIndex}-${i}`).day()]
+        date: dayjs(`${year.value}-${monthIndex}-${i}`),
+        day: dayjs(`${year.value}-${monthIndex}-${i}`).date(),
+        week: weekList.value[dayjs(`${year.value}-${monthIndex}-${i}`).day()]
     })
   }
   return localCalendar
 }
 
-onMounted(() => {
-    const monthIndex = dayjs().month() + 1;
+function setupCalendar() {
+    const monthIndex = dayjs().add(monthCounter.value, 'month').month() + 1;
+    year.value = dayjs().add(monthCounter.value, 'month').year();
 
-    monthName.value = monthsList.value[monthIndex];
+    monthName.value = monthsList.value[monthIndex - 1];
     calendar.value = populateCalendar(monthIndex);
-})
+}
 
+onMounted(() => {
+    setupCalendar()
+})
 </script>
 
 <template>
@@ -75,7 +80,10 @@ onMounted(() => {
       @clear-reminder="payload => store.dispatch('deleteReminder', payload)"
       @clear-day-reminders="payload => store.dispatch('deleteDayReminders', payload)"
       @clear-all-reminders="store.dispatch('deleteAllReminders')"
+      @next-month="()=>{monthCounter++; setupCalendar()}"
+      @prev-month="()=>{monthCounter--; setupCalendar()}"
       :monthName="monthName"
+      :year="year"
       :calendar="calendar"
     />
   </main>

@@ -9,6 +9,8 @@ import {
     faCheck as faCheck,
     faClock as faClock,
     faSpinner as faSpinner,
+    faChevronRight as faChevronRight,
+    faChevronLeft as faChevronLeft,
 } from '@fortawesome/free-solid-svg-icons'
 
 library.add(
@@ -21,4 +23,6 @@ library.add(
     faCheck,
     faClock,
     faSpinner,
+    faChevronRight,
+    faChevronLeft,
 )
