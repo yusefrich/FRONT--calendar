@@ -13,6 +13,11 @@ Chalange for Jobsity application.
 npm install
 ```
 
+### Environment
+
+```
+copy the .env.example file and rename to .env and add there the api key for the weather api
+```
 ### Run unit testing
 
 ```sh
